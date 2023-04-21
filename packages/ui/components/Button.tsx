@@ -194,7 +194,7 @@ const ButtonStyled = styled.button<ButtonProps>`
   }
 
   &:disabled {
-    cursor: not-allowed;
+    pointer-events: none;
 
     background-color: ${({ theme, variant }) => {
       switch (variant) {

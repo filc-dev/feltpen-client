@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FocusEvent, useState } from "react";
 import { BiDotsHorizontalRounded, BiPlus } from "react-icons/bi";
+import { IoMdArrowDropdown } from "react-icons/io";
 import {
   createWorkspaceCategoryApi,
   getWorkspaceCategoriesApi,
@@ -78,6 +79,7 @@ const CategoryItem: React.FC<ItemProps> = ({
 
   const queryClient = useQueryClient();
   const workspaceId = useWorkspaceId();
+  const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
   const onChangeTitle = (e: FocusEvent<HTMLInputElement, Element>) => {
@@ -149,11 +151,11 @@ const CategoryItem: React.FC<ItemProps> = ({
 
         return () => queryClient.setQueryData(key, oldUserData);
       },
-      onSettled: () =>
-        queryClient.invalidateQueries(
-          workspaceQueryKeys.getWorkspaceCategories(workspaceId)
-        ),
-      onError: (err, variables, rollback) => rollback?.(),
+      // onSettled: () =>
+      //   queryClient.invalidateQueries(
+      //     workspaceQueryKeys.getWorkspaceCategories(workspaceId)
+      //   ),
+      // onError: (err, variables, rollback) => rollback?.(),
     }
   );
 
@@ -198,36 +200,59 @@ const CategoryItem: React.FC<ItemProps> = ({
       workspaceId,
       parentFolderId: id,
     });
+    setIsOpen(true);
   };
 
   return (
     <>
-      <Flex direction="row" gap={8} align="center">
-        {isEdit ? (
-          <Input
-            placeholder="Untitled"
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                e.currentTarget.blur();
-              }
+      <CategoryItemContainer
+        direction="row"
+        gap={8}
+        align="center"
+        fullWidth
+        justify="space-between"
+      >
+        <Flex align="center" gap={4}>
+          <Button
+            style={{
+              visibility: children.length > 0 ? "visible" : "hidden",
             }}
-            size="small"
-            autoFocus
-            defaultValue={name}
-            onBlur={onChangeTitle}
+            onClick={() => setIsOpen(!isOpen)}
+            variant="quiet"
+            iconOnly={
+              <Icon size={24} rotate={isOpen ? 0 : -90}>
+                <IoMdArrowDropdown />
+              </Icon>
+            }
           />
-        ) : (
-          <Text onClick={() => setIsEdit(true)}>{name || "Untitled"}</Text>
-        )}
+
+          {isEdit ? (
+            <Input
+              placeholder="Untitled"
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  e.currentTarget.blur();
+                }
+              }}
+              size="small"
+              autoFocus
+              defaultValue={name}
+              onBlur={onChangeTitle}
+            />
+          ) : (
+            <Text size="large" weight="medium">
+              {name || "Untitled"}
+            </Text>
+          )}
+        </Flex>
 
         <Flex>
           <Button
             onClick={onCreate}
-            size="xsmall"
             variant="quiet"
             iconOnly={
-              <Icon size={18}>
+              <Icon size={24}>
                 <BiPlus />
               </Icon>
             }
@@ -235,29 +260,37 @@ const CategoryItem: React.FC<ItemProps> = ({
           <Dropdown
             trigger={
               <Button
-                size="xsmall"
                 variant="quiet"
                 iconOnly={
-                  <Icon size={18}>
+                  <Icon size={24}>
                     <BiDotsHorizontalRounded />
                   </Icon>
                 }
               />
             }
             render={({ hide }) => (
-              <Dropdown.Menu position="right" style={{ zIndex: 1 }}>
-                <Dropdown.Item>이름 변경</Dropdown.Item>
+              <Dropdown.Menu width={168} position="right" style={{ zIndex: 1 }}>
+                <Dropdown.Item
+                  onClick={() => {
+                    setIsEdit(true);
+                    hide();
+                  }}
+                >
+                  이름 변경
+                </Dropdown.Item>
                 <Dropdown.Item danger>폴더 삭제</Dropdown.Item>
               </Dropdown.Menu>
             )}
           />
         </Flex>
-      </Flex>
-      <div style={{ marginLeft: 20 }}>
-        {children.map((item: Category) => (
-          <CategoryItem {...item} data={data}></CategoryItem>
-        ))}
-      </div>
+      </CategoryItemContainer>
+      {isOpen && (
+        <div style={{ marginLeft: 20 }}>
+          {children.map((item: Category) => (
+            <CategoryItem {...item} data={data}></CategoryItem>
+          ))}
+        </div>
+      )}
     </>
   );
 };
@@ -266,6 +299,12 @@ export default Categories;
 
 const Container = styled(Flex)`
   height: calc(100vh - 55px);
+`;
+
+const CategoryItemContainer = styled(Flex)`
+  height: 80px;
+  box-sizing: border-box;
+  border-top: 1px solid #e5e5e5;
 `;
 
 const ContentContainer = styled(Flex)`

@@ -7,6 +7,7 @@ export interface IconProps extends HTMLAttributes<HTMLDivElement> {
   color?: ColorToken;
   children?: ReactNode;
   size?: number;
+  rotate?: number;
 }
 
 export const Icon: FC<IconProps> = ({
@@ -22,11 +23,17 @@ export const Icon: FC<IconProps> = ({
   );
 };
 
-const IconWrapper = styled.div<{ color: ColorToken; size?: number }>`
+const IconWrapper = styled.div<{
+  color: ColorToken;
+  size?: number;
+  rotate?: number;
+}>`
   display: inherit;
 
   & > svg {
-    ${({ size }) => size && `width: ${size}px; height: ${size}px;`}
+    ${({ size }) => size && `width: ${size}px; height: ${size}px;`};
+    ${({ rotate }) => rotate && `transform: rotate(${rotate}deg);`};
+    transition: all 0.2s;
     fill: ${({ theme, color }) =>
       color
         ? theme.colors[color as keyof Colors] ?? color
