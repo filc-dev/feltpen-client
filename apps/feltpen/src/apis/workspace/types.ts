@@ -32,3 +32,9 @@ export interface Post {
   writerName: string;
   writerProfileImage: string;
 }
+
+export interface Category {
+  parentFolderId: string | null;
+  name: string;
+  id: string;
+}

@@ -8,13 +8,13 @@ import {
   revokeInvitationApi,
 } from "src/apis/workspace/apis";
 
+import { BiPlus } from "react-icons/bi";
+import { BsX } from "react-icons/bs";
+import { workspaceQueryKeys } from "src/apis/workspace/queryKeys";
+import styled from "styled-components";
 import Header from "../Header";
 import { useWorkspaceId } from "../hooks/useWorkspaceId";
-import styled from "styled-components";
-import { BiPlus } from "react-icons/bi";
-import { workspaceQueryKeys } from "src/apis/workspace/queryKeys";
 import InviteMembersModal from "./InviteMembersModal";
-import { BsX } from "react-icons/bs";
 
 const Members: FC = () => {
   const [state, setState] = useState(false);

@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC } from "react";
-import { BiPlus } from "react-icons/bi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { getWorkspaceApi } from "src/apis/workspace/apis";
 import { workspaceQueryKeys } from "src/apis/workspace/queryKeys";
@@ -112,6 +111,7 @@ const Header: FC = () => {
             }
             render={({ hide }) => (
               <Dropdown.Menu position="right">
+                <Dropdown.Item danger>My Page</Dropdown.Item>
                 <Dropdown.Item danger>Sign out</Dropdown.Item>
                 <Dropdown.Item onClick={hide} danger>
                   Sign out

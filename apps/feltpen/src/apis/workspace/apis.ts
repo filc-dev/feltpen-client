@@ -1,5 +1,12 @@
 import { apiClient } from "../client";
-import { Member, Workspace, InviteMember, Post, PostStatus } from "./types";
+import {
+  Category,
+  InviteMember,
+  Member,
+  Post,
+  PostStatus,
+  Workspace,
+} from "./types";
 
 export const getWorkspaceApi = async ({
   workspaceId,
@@ -120,4 +127,90 @@ export const joinWorkspaceApi = async ({
   code: string;
 }) => {
   return await apiClient.post(`/workspaces/${workspaceId}/join`, { code });
+};
+
+export const updateWorkspaceCategoryApi = async ({
+  workspaceId,
+  categoryId,
+  name,
+  parentFolderId,
+}: {
+  workspaceId: string;
+  categoryId: string;
+  name: string;
+  parentFolderId: string | null;
+}) => {
+  return await apiClient.put(
+    `/workspaces/${workspaceId}/categories/${categoryId}`,
+    {
+      name,
+      parentFolderId,
+    }
+  );
+};
+
+export const createWorkspaceCategoryApi = async ({
+  workspaceId,
+  name,
+  parentFolderId,
+}: {
+  workspaceId: string;
+  name: string;
+  parentFolderId: string | null;
+}) => {
+  return await apiClient.post(`/workspaces/${workspaceId}/categories`, {
+    name,
+    parentFolderId,
+  });
+};
+
+export const getWorkspaceCategoriesApi = async ({
+  workspaceId,
+}: {
+  workspaceId: string;
+}) => {
+  return {
+    data: [
+      {
+        id: "geaiuorgj",
+        name: "General",
+        parentFolderId: null,
+      },
+      {
+        id: "geriosrjtsh",
+        name: "General1",
+        parentFolderId: null,
+      },
+      {
+        id: "gertosijkg",
+        name: "General2",
+        parentFolderId: "geaiuorgj",
+      },
+      {
+        id: "bioseheiuo",
+        name: "General4",
+        parentFolderId: "geriosrjtsh",
+      },
+      {
+        id: "eiosgujeriost",
+        name: "General5",
+        parentFolderId: "gertosijkg",
+      },
+    ],
+  };
+  return await apiClient.get<Category[]>(
+    `/workspaces/${workspaceId}/categories`
+  );
+};
+
+export const removeWorkspaceCategoryApi = async ({
+  workspaceId,
+  categoryId,
+}: {
+  workspaceId: string;
+  categoryId: number;
+}) => {
+  return await apiClient.delete(
+    `/workspaces/${workspaceId}/categories/${categoryId}`
+  );
 };

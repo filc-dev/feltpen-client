@@ -22,4 +22,9 @@ export const workspaceQueryKeys = {
     "posts",
     postId,
   ],
+  getWorkspaceCategories: (workspaceId: string) => [
+    workspaceQueryKeys.all,
+    workspaceId,
+    "categories",
+  ],
 };
