@@ -11,6 +11,8 @@ const EmptyWorkspace: NextPageWithAuth = () => {
     onSuccess: ({ data }) => {
       if (data.workspaces.length > 0) {
         router.push(`/workspaces/${data.workspaces[0].id}`);
+      } else {
+        router.push("/workspaces/create");
       }
     },
     onError: () => {
