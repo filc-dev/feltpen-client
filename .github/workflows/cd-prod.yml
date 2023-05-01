@@ -27,7 +27,8 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v4
         with:
-          context: ./apps/feltpen
+          context: .
+          file: ./apps/feltpen/Dockerfile
           push: true
           tags: feltpen/live:${{ env.docker_image_name }}
 
