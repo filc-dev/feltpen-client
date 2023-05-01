@@ -54,11 +54,6 @@ export class ApiClient {
   }
 }
 
-export const apiClient = new ApiClient(
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  process.env.NODE_ENV === "production"
-    ? "https://app.feltpen.site/api"
-    : "http://localhost:3000/api"
-);
+export const apiClient = new ApiClient("https://api.feltpen.site");
 
 export const localApiClient = new ApiClient("http://localhost:3000");
