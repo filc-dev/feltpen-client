@@ -1,5 +1,7 @@
 const Category = () => {
-  return <div></div>;
+  return <div>
+    adada
+  </div>;
 };
 
 export default Category;

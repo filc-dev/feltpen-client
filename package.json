@@ -15,12 +15,13 @@
   },
   "devDependencies": {
     "eslint-config-custom": "*",
+    "hygen": "^6.2.11",
     "prettier": "latest",
     "turbo": "latest",
-    "hygen": "^6.2.11"
+    "typescript": "^4.5.3"
   },
   "engines": {
     "node": ">=14.0.0"
   },
-  "packageManager": "yarn@1.22.17"
+  "packageManager": "yarn@3.5.0"
 }

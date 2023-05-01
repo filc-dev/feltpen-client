@@ -302,9 +302,16 @@ const Container = styled(Flex)`
 `;
 
 const CategoryItemContainer = styled(Flex)`
-  height: 80px;
+  height: 70px;
   box-sizing: border-box;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid ${({ theme }) => theme.colors.gray200};
+  cursor: pointer;
+  transition: 300ms;
+  padding: 0 4px;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.gray100};
+  }
 `;
 
 const ContentContainer = styled(Flex)`
