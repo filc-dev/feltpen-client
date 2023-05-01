@@ -6,4 +6,11 @@ module.exports = {
   compiler: {
     styledComponents: true,
   },
+
+  rewrites: async () => [
+    {
+      source: "/health",
+      destination: "/api/health",
+    },
+  ],
 };
