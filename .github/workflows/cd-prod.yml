@@ -41,4 +41,4 @@ jobs:
     with:
       name: feltpen-client
       profile: live
-      port: 8080
+      port: 3000
