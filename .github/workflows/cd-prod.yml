@@ -31,6 +31,8 @@ jobs:
           file: ./apps/feltpen/Dockerfile
           push: true
           tags: feltpen/live:${{ env.docker_image_name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   update-argocd-metadata:
     uses: e1i2/workflows/.github/workflows/argocd-deploy.yaml@main
