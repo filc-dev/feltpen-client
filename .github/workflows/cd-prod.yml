@@ -1,0 +1,40 @@
+name: frontend-feltpen-CICD
+
+on:
+  push:
+    branches:
+      - "main"
+
+env:
+  docker_image_name: ${{ github.event.repository.name }}-feltpen-${{ github.sha }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v4
+        with:
+          context: ./apps/feltpen
+          push: true
+          tags: feltpen/live:${{ env.docker_image_name }}
+
+  update-argocd-metadata:
+    uses: e1i2/workflows/.github/workflows/argocd-deploy.yaml@main
+    needs: build
+    secrets: inherit
+    with:
+      profile: live
+      port: 8080

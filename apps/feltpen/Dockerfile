@@ -20,6 +20,7 @@ RUN yarn install
 
 # 프로젝트를 빌드 합니다.
 COPY --from=builder /app/out/full/ .
+RUN ls
 COPY turbo.json turbo.json
 
 # 리모트 캐싱을 위한 환경변수를 설정합니다. (선택사항)
